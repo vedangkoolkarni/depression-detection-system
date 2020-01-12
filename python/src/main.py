@@ -196,12 +196,29 @@ def captureImage():
   return saved_image_path
     
 if __name__ == "__main__":
-  saved_image_path = captureImage() 
-  # print('image saved at : ', saved_image_path)
-  # print('processing image to detect face and extract emotions')
-  status = {
-    "status" : "processing-image",
-    "image_path": saved_image_path
-  }
-  print(status)
-  main(saved_image_path)
+  print(len(sys.argv))
+  
+  if(len(sys.argv) == 1):
+    saved_image_path = captureImage()
+    status = {
+      "status" : "processing-image",
+      "image_path": saved_image_path
+    }
+    print(status)
+    main(saved_image_path)
+  elif(len(sys.argv) == 2):
+    relativeUploadedPath = os.path.abspath(__file__ + '/../../server/' + sys.argv[1]) 
+    print('relativeUploadedPath: ', relativeUploadedPath);
+    main(relativeUploadedPath)
+  
+  # if (isinstance(sys.argv[1], str) ):
+  #   print('going with uploaded image')
+  # else:
+  #   print('need to capture image with webcam')
+  # saved_image_path = captureImage() 
+  # status = {
+  #   "status" : "processing-image",
+  #   "image_path": saved_image_path
+  # }
+  # print(status)
+  # main(saved_image_path)
