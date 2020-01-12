@@ -30,7 +30,6 @@ def main(image_path) :
   # image_path = '../images/happy.png'
   
   try :
-    print('starting to detect faces')
     
     detection_model_path = '../trained_models/detection_models/haarcascade_frontalface_default.xml'
     # emotion_model_path = '../trained_models/emotion_models/fer2013_mini_XCEPTION.102-0.66.hdf5'
@@ -60,11 +59,9 @@ def main(image_path) :
     gray_image = np.squeeze(gray_image)
     gray_image = gray_image.astype('uint8')
 
-    print('starting to detect faces')
     faces = detect_faces(face_detection, gray_image)
     face_type = str(type(faces))
     totalFaces = 0
-    print('initialized total faces')
 
     if face_type == "<class 'numpy.ndarray'>" :
       totalFaces = (faces.size / 4)
@@ -72,7 +69,7 @@ def main(image_path) :
         "status" : "face-detected-from-image",
         "totalFaces": totalFaces
       }
-      print(status)
+      print(status,'**sep**')
       if totalFaces == 1 :
         for face_coordinates in faces:
           x1, x2, y1, y2 = apply_offsets(face_coordinates, gender_offsets)
@@ -116,20 +113,21 @@ def main(image_path) :
           "status" : "emotion-detected-from-image",
           "result" : emotion_text
         }
-        print(status)
+        print(status,'**sep**')
+
         # print('the gender in the picture is : ', gender_text)
       else:
         status = {
           "status" : "more-than-one-faces-detected",
           "totalFaces": totalFaces
         }
-        print(status)
+        print(status,'**sep**')
     else: 
       status = {
         "status" : "more-than-one-faces-detected",
         "totalFaces": totalFaces
       }
-      print(status)
+      print(status,'**sep**')
 
   except Exception as e:
     print(e)
@@ -162,7 +160,7 @@ def captureImage():
               status = {
                 "status" : "capturing-image"
               }
-              print(status)
+              print(status ,'**sep**')
               img_ = cv2.imread('saved_img.jpg', cv2.IMREAD_ANYCOLOR)
               # print("Converting RGB image to grayscale...")
               # gray = cv2.cvtColor(img_, cv2.COLOR_BGR2GRAY)
@@ -170,12 +168,12 @@ def captureImage():
               # print("Resizing image to 28x28 scale...")
               # img_ = cv2.resize(gray,(28,28))
               # print("Resized...")
-              img_resized = cv2.imwrite(filename='saved_img-final.jpg', img=img_)
               saved_image_path  += '\saved_img-final.jpg'
+              img_resized = cv2.imwrite(filename=saved_image_path, img=img_)
               status = {
                 "status" : "image-captured"
               }
-              print(status)
+              print(status,'**sep**')
           
               break
           elif key == ord('q'):
@@ -195,20 +193,18 @@ def captureImage():
           break
   return saved_image_path
     
-if __name__ == "__main__":
-  print(len(sys.argv))
-  
+if __name__ == "__main__":  
   if(len(sys.argv) == 1):
     saved_image_path = captureImage()
     status = {
       "status" : "processing-image",
       "image_path": saved_image_path
     }
-    print(status)
+    print(status,'**sep**')
+    
     main(saved_image_path)
   elif(len(sys.argv) == 2):
     relativeUploadedPath = os.path.abspath(__file__ + '/../../server/' + sys.argv[1]) 
-    print('relativeUploadedPath: ', relativeUploadedPath);
     main(relativeUploadedPath)
   
   # if (isinstance(sys.argv[1], str) ):
