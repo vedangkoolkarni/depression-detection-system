@@ -69,7 +69,7 @@ def main(image_path) :
         "status" : "face-detected-from-image",
         "totalFaces": totalFaces
       }
-      print(status,'**sep**')
+      print('**sep**',status,'**sep**')
       if totalFaces == 1 :
         for face_coordinates in faces:
           x1, x2, y1, y2 = apply_offsets(face_coordinates, gender_offsets)
